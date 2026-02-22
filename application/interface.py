@@ -22,9 +22,9 @@ class UserRepository(ABC):
 class TokenRepository(ABC):
 
     @abstractmethod
-    async def save_token(self, token: str, user_id: int, expire_seconds: timedelta) -> None:
+    def save_token(self, token: str, user_id: int, expire_seconds: timedelta) -> None:
         pass
 
     @abstractmethod
-    async def get_user_id_by_token(self, token: str) -> int | None:
+    def get_user_id_by_token(self, token: str) -> int | None:
         pass

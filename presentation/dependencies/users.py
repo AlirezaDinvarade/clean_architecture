@@ -1,12 +1,12 @@
 from sqlalchemy.orm import Session
 from application.interface import UserRepository
-from application.use_case.user import CreateUserUseCase, ListUserUseCase
+from application.use_case.users import CreateUserUseCase, ListUserUseCase
 from infrastructure.postgres.repositories import PostgresUserRepository
 from fastapi import Depends
-from database import get_db
+from database import get_postgres_session
 
 
-def get_user_repository(session: Session = Depends(get_db)) -> UserRepository:
+def get_user_repository(session: Session = Depends(get_postgres_session)) -> UserRepository:
     return PostgresUserRepository(session=session)
 
 

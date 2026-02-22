@@ -20,6 +20,7 @@ class PostgresUserRepository(UserRepository):
         user.id = db_user.id
         return user
     
+
     def get_all(self) -> List[User]:
         db_users = self.session.query(UserModel).all()
         return [
@@ -27,5 +28,9 @@ class PostgresUserRepository(UserRepository):
             for u in db_users
         ]
     
+    
     def get_by_username(self, username: str) -> User:
-        return self.session.query(UserModel).filter(UserModel.username == username).first()
+        user = self.session.query(UserModel).filter(UserModel.username == username).first()
+        if not user:
+            ValueError("User not found")
+        return user

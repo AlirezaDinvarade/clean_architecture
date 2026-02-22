@@ -9,3 +9,9 @@ class User:
 
     def is_valid_email(self) -> bool:
         return "@" in self.email
+    
+
+@dataclass
+class Token:
+    token: str
+    user: User

@@ -1,4 +1,5 @@
 import secrets
+from domain.entities import Token, User
 from datetime import timedelta
 from application.interface import UserRepository, TokenRepository
 
@@ -8,12 +9,14 @@ class LoginUseCase:
         self.user_repo = user_repo
         self.token_repo = token_repo
 
-    async def execute(self, username: str, password: str) -> str:
+    def execute(self, username: str, password: str) -> Token:
         user = self.user_repo.get_by_username(username=username)
 
         if not user or user.password != password:
             raise ValueError("Invalid username or password")
             
         token = secrets.token_hex(32)
-        await self.token_repo.save_token(token=token, user_id=user.id, expire_seconds=timedelta(days=1))
-        return token
+        self.token_repo.save_token(token=token, user_id=user.id, expire_seconds=timedelta(days=1))
+
+        return Token(token=token, user=user)
+    
